@@ -1,0 +1,15 @@
+{
+  "commands": [{
+      "name": "EnableCheats",
+      "syntax": "EnableCheats <Password>",
+      "description": "This command enables access to cheat commands (admincheat), if the givenpassword is correct. The password is set in the server configuration as\"ServerAdminPassword\".",
+      "rcon_needed": true
+    },
+    {
+      "name": "SetCheatPlayer",
+      "syntax": "SetCheatPlayer <True/False>",
+      "description": "This command enables (true) or disables (false) cheats for the player whom executes it",
+      "rcon_needed": true
+    }
+  ]
+}
