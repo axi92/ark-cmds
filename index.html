@@ -2,22 +2,22 @@
 <html lang="en">
 
 <head>
-  <title>Bootstrap Example</title>
+  <title>Ark Survival Evolved Console Commands</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css" />
+  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
 </head>
 
 <body>
-
   <div class="container">
-    <h2>Filterable Table</h2>
-    <p>Type something in the input field to search the table for first names, last names or emails:</p>
-    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <h2>Ark Survival Evolved Console Commands</h2>
+    <p>Type something in the input field to search the table for all ARK commands.</p>
     <br>
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" id="fullTable">
       <thead>
         <tr>
           <th>Command Name</th>
@@ -26,59 +26,49 @@
         </tr>
       </thead>
       <tbody id="myTable">
-        <tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>john@example.com</td>
-        </tr>
-        <tr>
-          <td>Mary</td>
-          <td>Moe</td>
-          <td>mary@mail.com</td>
-        </tr>
-        <tr>
-          <td>July</td>
-          <td>Dooley</td>
-          <td>july@greatstuff.com</td>
-        </tr>
-        <tr>
-          <td>Anja</td>
-          <td>Ravendale</td>
-          <td>a_r@test.com</td>
-        </tr>
       </tbody>
     </table>
-
-    <p>Note that we start the search in tbody, to prevent filtering the table headers.</p>
   </div>
 
   <script>
     $(document).ready(function () {
-      $("#myInput").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function () {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-      });
       var json = (function () {
         var json = null;
-        console.log('ajax')
         $.ajax({
           'async': false,
           'global': false,
           'url': "/ark-cmds/commands.json",
           'dataType': "json",
           'success': function (data) {
-            console.log('data');
             json = data;
           }
         });
         return json;
       })();
-      console.log(json);
+
+      Object.values(json.commands).forEach(function (val) {
+        var row = '<tr><td>' + escapeHtml(val.name) + '</td><td>' + escapeHtml(val.syntax) + '</td><td>' +
+          escapeHtml(val.description) +
+          '</td></tr>';
+        document.getElementById("myTable").insertRow(-1).innerHTML = row;
+      });
+
+      function escapeHtml(unsafe) {
+        return unsafe
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+      $('#fullTable').DataTable({
+        "lengthMenu": [
+          [-1, 10, 25, 50],
+          ["All", 10, 25, 50]
+        ]
+      });
     });
   </script>
-
 </body>
 
 </html>
