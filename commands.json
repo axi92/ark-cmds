@@ -797,6 +797,14 @@
       "name": "CopyCoordsToClipboard",
       "syntax": "admincheat CopyCoordsToClipboard",
       "description": "This console command will copy to your clipboard your X, Y, Z, Pitch, and Yaw coordinates. This is useful for commands, teleports, etc."
+    }, {
+      "name": "Drainwater",
+      "syntax": "admincheat drainwater <number>",
+      "description": "This will drain your water."
+    }, {
+      "name": "Drainfood",
+      "syntax": "admincheat drainfood <number>",
+      "description": "This will drain your food."
     }
   ]
 }
